@@ -1,0 +1,255 @@
+{
+  "name": "rca-mobile",
+  "version": "0.1.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://_domenicocolandrea@bitbucket.org/_domenicocolandrea/rca-mobile.git"
+  },
+  "engines": {
+    "npm": ">=4",
+    "node": ">=7"
+  },
+  "author": "Domenico Colandrea",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development haul start --plateform all",
+    "android": "cross-env NODE_ENV=development haul start --platform android",
+    "ios": " cross-env NODE_ENV=development haul start --platform ios",
+    "lint": "npm run lint:js",
+    "lint:eslint": "eslint --ignore-path .gitignore",
+    "lint:js": "npm run lint:eslint -- . ",
+    "lint:staged": "lint-staged",
+    "lintdiff": "git diff --name-only --cached --relative | grep '\\.js$' | xargs standard | snazzy",
+    "test": "cross-env NODE_ENV=test node node_modules/jest/bin/jest.js --coverage",
+    "test:watch": "cross-env NODE_ENV=test node node_modules/jest/bin/jest.js --watchAll",
+    "test:clean": "rimraf ./coverage",
+    "flow": "node_modules/.bin/flow",
+    "flow-stop": "node_modules/.bin/flow stop",
+    "fixcode": "standard --fix",
+    "clean": "rimraf $TMPDIR/react-* && watchman watch-del-all && npm cache clean",
+    "clean:android": "cd android/ && ./gradlew clean && cd .. && react-native run-android",
+    "newclear": "rimraf $TMPDIR/react-* && watchman watch-del-all && rimraf ios/build && rm -rf node_modules/ && npm cache clean && npm i"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "app/**/*.{js,jsx}",
+      "!app/**/*.test.{js,jsx}"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 98,
+        "branches": 91,
+        "functions": 98,
+        "lines": 98
+      }
+    },
+    "moduleDirectories": [
+      "node_modules",
+      "app"
+    ],
+    "moduleNameMapper": {
+      ".*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/mocks/image.js"
+    },
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/test-bundler.js",
+    "testRegex": "tests/.*\\.test\\.js$"
+  },
+  "pre-commit": "lint:staged",
+  "lint-staged": {
+    "*.js": [
+      "lint:eslint",
+      "prettier --single-quote --trailing-comma all --write",
+      "git add"
+    ]
+  },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        "react-native"
+      ]
+    ],
+    "plugins": [
+      "transform-flow-strip-types",
+      "transform-object-rest-spread"
+    ],
+    "env": {
+      "production": {
+        "only": [
+          "app"
+        ],
+        "plugins": [
+          "transform-react-remove-prop-types",
+          "transform-react-constant-elements",
+          "transform-react-inline-elements"
+        ]
+      }
+    }
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": "airbnb",
+    "env": {
+      "browser": true,
+      "node": true,
+      "jest": true,
+      "es6": true
+    },
+    "plugins": [
+      "redux-saga",
+      "react",
+      "jsx-a11y"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "rules": {
+      "no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "next"
+        }
+      ],
+      "arrow-parens": [
+        "error",
+        "always"
+      ],
+      "arrow-body-style": [
+        2,
+        "as-needed"
+      ],
+      "comma-dangle": [
+        2,
+        "always-multiline"
+      ],
+      "import/imports-first": 0,
+      "import/newline-after-import": 0,
+      "import/no-dynamic-require": 0,
+      "import/no-extraneous-dependencies": 0,
+      "import/no-named-as-default": 0,
+      "import/no-unresolved": 2,
+      "import/prefer-default-export": 0,
+      "indent": [
+        2,
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ],
+      "jsx-a11y/aria-props": 2,
+      "jsx-a11y/heading-has-content": 0,
+      "jsx-a11y/href-no-hash": 2,
+      "jsx-a11y/label-has-for": 2,
+      "jsx-a11y/mouse-events-have-key-events": 2,
+      "jsx-a11y/role-has-required-aria-props": 2,
+      "jsx-a11y/role-supports-aria-props": 2,
+      "max-len": 0,
+      "newline-per-chained-call": 0,
+      "no-confusing-arrow": 0,
+      "no-console": 1,
+      "no-use-before-define": 0,
+      "prefer-template": 2,
+      "class-methods-use-this": 0,
+      "react/forbid-prop-types": 0,
+      "react/jsx-first-prop-new-line": [
+        2,
+        "multiline"
+      ],
+      "react/jsx-filename-extension": 0,
+      "react/jsx-no-target-blank": 0,
+      "react/require-extension": 0,
+      "react/self-closing-comp": 0,
+      "redux-saga/no-yield-in-race": 2,
+      "redux-saga/yield-effects": 2,
+      "require-yield": 0
+    }
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "globals": [
+      "describe",
+      "it",
+      "fetch",
+      "navigator",
+      "__DEV__",
+      "XMLHttpRequest",
+      "FormData",
+      "React$Element"
+    ]
+  },
+  "dependencies": {
+    "apisauce": "^0.11.0",
+    "babel-polyfill": "^6.23.0",
+    "cross-env": "^4.0.0",
+    "format-json": "^1.0.3",
+    "lodash": "^4.17.4",
+    "querystringify": "^1.0.0",
+    "ramda": "^0.23.0",
+    "react": "16.0.0-alpha.6",
+    "react-native": "0.43.4",
+    "react-native-animatable": "^1.1.1",
+    "react-native-config": "^0.3.1",
+    "react-native-device-info": "^0.10.2",
+    "react-native-drawer": "^2.3.0",
+    "react-native-push-notification": "^2.2.1",
+    "react-native-vector-icons": "^4.0.1",
+    "react-navigation": "^1.0.0-beta.7",
+    "react-redux": "^5.0.4",
+    "redux": "^3.6.0",
+    "redux-persist": "^4.6.0",
+    "redux-saga": "^0.14.7",
+    "reduxsauce": "^0.5.0",
+    "seamless-immutable": "^7.1.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-eslint": "^7.2.2",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-dynamic-import-node": "^1.0.1",
+    "babel-plugin-react-intl": "^2.3.1",
+    "babel-plugin-react-transform": "^2.0.2",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-react-constant-elements": "^6.23.0",
+    "babel-plugin-transform-react-inline-elements": "^6.22.0",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.1",
+    "babel-preset-env": "^1.4.0",
+    "babel-preset-react-native": "^1.9.1",
+    "enzyme": "^2.8.2",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-airbnb-base": "^11.1.3",
+    "eslint-config-prettier": "^1.7.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "eslint-plugin-redux-saga": "^0.3.0",
+    "file-loader": "^0.11.1",
+    "flow-bin": "0.38.0",
+    "haul-cli": "^0.5.0",
+    "husky": "^0.13.3",
+    "jest": "^19.0.2",
+    "jest-cli": "^19.0.2",
+    "lint-staged": "^3.4.0",
+    "mockery": "^2.0.0",
+    "nyc": "^10.2.0",
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.2.2",
+    "react-dom": "^15.5.4",
+    "react-test-renderer": "~15.4.1",
+    "reactotron-apisauce": "^1.10.0",
+    "reactotron-react-native": "^1.10.0",
+    "reactotron-redux": "^1.10.0",
+    "reactotron-redux-saga": "^1.10.0",
+    "rimraf": "^2.6.1",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.2",
+    "webpack": "^2.4.1"
+  }
+}
