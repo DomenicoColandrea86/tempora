@@ -23,7 +23,8 @@ const create = (baseURL = 'https://rcanalytics.com/wp-json/wp/v2/') => {
   // Wrap api's addMonitor to allow the calling code to attach
   // additional monitors in the future.  But only in __DEV__ and only
   // if we've attached Reactotron to console (it isn't during unit tests).
-  if (__DEV__ && console.tron) { // eslint-disable-line no-undef
+  if (__DEV__ && console.tron) {
+    // eslint-disable-line no-undef
     api.addMonitor(console.tron.apisauce);
   }
 
@@ -41,7 +42,7 @@ const create = (baseURL = 'https://rcanalytics.com/wp-json/wp/v2/') => {
   // Since we can't hide from that, we embrace it by getting out of the
   // way at this level.
   //
-  const getPosts = () => api.get('posts');
+  const getPosts = () => api.get('posts?per_page=100');
 
   // ------
   // STEP 3

@@ -28,4 +28,9 @@ export default StyleSheet.create({
   listContent: {
     marginTop: Metrics.baseMargin,
   },
+  thumbnail: {
+    marginRight: 10,
+    borderWidth: 1,
+    borderColor: Colors.silver,
+  },
 });
