@@ -16,8 +16,9 @@ const store = createStore();
  *
  * We separate like this to play nice with React Native's hot reloading.
  */
+
+// eslint-disable-next-line react/prefer-stateless-function
 class App extends React.PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <Provider store={store}>

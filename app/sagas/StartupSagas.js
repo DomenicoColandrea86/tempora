@@ -1,7 +1,6 @@
 // process STARTUP actions
 export function* startup(action) {
-  if (__DEV__ && console.tron) {
-    // eslint-disable-line no-undef
+  if (process.env.NODE_ENV && console.tron) {
     // straight-up string logging
     console.tron.log('Welcome to RCA Mobile!', action);
   }

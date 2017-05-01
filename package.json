@@ -113,10 +113,7 @@
           "argsIgnorePattern": "next"
         }
       ],
-      "arrow-parens": [
-        "error",
-        "always"
-      ],
+      "arrow-parens": 0,
       "arrow-body-style": [
         2,
         "as-needed"
@@ -125,6 +122,7 @@
         2,
         "always-multiline"
       ],
+      "curly": 0,
       "import/imports-first": 0,
       "import/newline-after-import": 0,
       "import/no-dynamic-require": 0,
