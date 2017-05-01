@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ApplicationStyles, Metrics, Colors } from '../../ui';
+import { ApplicationStyles, Metrics, Colors } from '../../../ui';
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
@@ -13,6 +13,10 @@ export default StyleSheet.create({
     backgroundColor: Colors.fire,
     marginVertical: Metrics.smallMargin,
     justifyContent: 'center',
+  },
+  section: {
+    margin: Metrics.section,
+    padding: Metrics.baseMargin,
   },
   boldLabel: {
     fontWeight: 'bold',

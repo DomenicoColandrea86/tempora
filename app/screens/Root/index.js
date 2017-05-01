@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { View, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
-import Navigation from '../navigation/AppNavigation';
+import Navigation from '../../routes/AppNavigation';
 
 // Styles
-import styles from './styles/RootContainerStyles';
+import styles from './styles';
 
 class RootContainer extends Component {
-
   componentDidMount() {}
 
   render() {

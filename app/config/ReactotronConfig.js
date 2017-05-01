@@ -1,4 +1,4 @@
-import Immutable from 'seamless-immutable';
+import { fromJS } from 'immutable';
 import Config from './DebugConfig';
 const Reactotron = require('reactotron-react-native').default;
 const errorPlugin = require('reactotron-react-native').trackGlobalErrors;
@@ -7,37 +7,35 @@ const { reactotronRedux } = require('reactotron-redux');
 const sagaPlugin = require('reactotron-redux-saga');
 
 if (Config.useReactotron) {
-  Reactotron
-    .configure({
-      name: 'RCA Mobile',
-    })
-
+  Reactotron.configure({
+    name: 'RCA Mobile',
+  })
     // forward all errors to Reactotron
-    .use(errorPlugin({
-      // ignore all error frames from react-native (for example)
-      veto: (frame) =>
-        frame.fileName.indexOf('/node_modules/react-native/') >= 0,
-    }))
-
+    .use(
+      errorPlugin({
+        // ignore all error frames from react-native (for example)
+        veto: frame =>
+          frame.fileName.indexOf('/node_modules/react-native/') >= 0,
+      }),
+    )
     // register apisauce so we can install a monitor later
     .use(apisaucePlugin())
-
     // setup the redux integration with Reactotron
-    .use(reactotronRedux({
-      // you can flag some of your actions as important by returning true here
-      // isActionImportant: (action) => action.type === SOME_ACTION,
+    .use(
+      reactotronRedux({
+        // you can flag some of your actions as important by returning true here
+        // isActionImportant: (action) => action.type === SOME_ACTION,
 
-      // you can flag to exclude certain types too... especially the chatty ones
-      // except: ['EFFECT_TRIGGERED', 'EFFECT_RESOLVED', 'EFFECT_REJECTED', 'persist/REHYDRATE'],
+        // you can flag to exclude certain types too... especially the chatty ones
+        // except: ['EFFECT_TRIGGERED', 'EFFECT_RESOLVED', 'EFFECT_REJECTED', 'persist/REHYDRATE'],
 
-      // Fires when Reactotron uploads a new copy of the state tree.  Since our reducers are
-      // immutable with `seamless-immutable`, we ensure we convert to that format.
-      onRestore: (state) => Immutable(state),
-    }))
-
+        // Fires when Reactotron uploads a new copy of the state tree.  Since our reducers are
+        // immutable, we ensure we convert to that format.
+        onRestore: state => fromJS(state),
+      }),
+    )
     // register the redux-saga plugin so we can use the monitor in CreateStore.js
     .use(sagaPlugin())
-
     // let's connect!
     .connect();
 

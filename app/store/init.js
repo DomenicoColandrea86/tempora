@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import { autoRehydrate } from 'redux-persist';
+import { autoRehydrate } from 'redux-persist-immutable';
 import createSagaMiddleware from 'redux-saga';
 import Config from '../config/DebugConfig';
 import RehydrationServices from '../services/RehydrationServices';
@@ -14,7 +14,9 @@ export default (rootReducer, rootSaga) => {
 
   /* ------------- Saga Middleware ------------- */
 
-  const sagaMonitor = __DEV__ ? console.tron.createSagaMonitor() : null; // eslint-disable-line no-undef
+  const sagaMonitor = process.env.NODE_ENV === 'development'
+    ? console.tron.createSagaMonitor()
+    : null;
   const sagaMiddleware = createSagaMiddleware({ sagaMonitor });
   middleware.push(sagaMiddleware);
 
@@ -29,8 +31,10 @@ export default (rootReducer, rootSaga) => {
     enhancers.push(autoRehydrate());
   }
 
-  // if Reactotron is enabled (default for __DEV__), we'll create the store through Reactotron
-  const createAppropriateStore = Config.useReactotron ? console.tron.createStore : createStore;
+  // if Reactotron is enabled (default for development), we'll create the store through Reactotron
+  const createAppropriateStore = Config.useReactotron
+    ? console.tron.createStore
+    : createStore;
   const store = createAppropriateStore(rootReducer, compose(...enhancers));
 
   // configure persistStore and check reducer version number

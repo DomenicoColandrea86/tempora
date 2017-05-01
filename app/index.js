@@ -1,8 +1,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import './config/ReactotronConfig';
-import RootContainer from './containers/RootContainer';
-import createStore from './redux';
+import RootContainer from './screens/Root';
+import createStore from './store';
 
 // create our store
 const store = createStore();
@@ -16,7 +16,8 @@ const store = createStore();
  *
  * We separate like this to play nice with React Native's hot reloading.
  */
-class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class App extends React.PureComponent {
+  // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <Provider store={store}>
