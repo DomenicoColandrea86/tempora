@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { InsightsActions, InsightsTypes } from '../../store/Insights';
-import api from '../../services/api';
+import api from '../../api';
 
 function* requestInsightsAsync() {
   // make the call to the api

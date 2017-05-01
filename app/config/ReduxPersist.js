@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 import { AsyncStorage } from 'react-native';
 import immutablePersistenceTransform
-  from '../services/ImmutablePersistenceTransform';
+  from '../services/AsyncStorage/ImmutablePersistenceTransform';
 
 const REDUX_PERSIST = fromJS({
   active: true,

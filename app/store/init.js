@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { autoRehydrate } from 'redux-persist-immutable';
 import createSagaMiddleware from 'redux-saga';
 import Config from '../config/DebugConfig';
-import RehydrationServices from '../services/RehydrationServices';
+import RehydrationServices from '../services/AsyncStorage/RehydrationServices';
 import ReduxPersist from '../config/ReduxPersist';
 
 // creates the store
