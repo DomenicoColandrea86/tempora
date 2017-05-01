@@ -1,6 +1,6 @@
-
 const images = {
-  logo: require('../images/rca-logo.svg'), // eslint-disable-line global-require
+  // eslint-disable-next-line global-require
+  logo: require('../images/rca-logo.png'),
 };
 
 export default images;
