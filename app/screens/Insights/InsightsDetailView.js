@@ -22,6 +22,8 @@ class InsightsDetailView extends React.PureComponent {
     console.log(this);
   }
 
+  stripHTML = string => string.replace(/<\/?[^>]+(>|$)/g, '');
+
   render() {
     const insight = this.props.navigation.state.params.insight;
     return (
@@ -43,7 +45,7 @@ class InsightsDetailView extends React.PureComponent {
               </CardItem>
               <CardItem>
                 <Body>
-                  <Text>{insight.content.rendered}</Text>
+                  <Text>{this.stripHTML(insight.content.rendered)}</Text>
                   <Button transparent textStyle={{ color: '#87838B' }}>
                     <Icon name="logo-github" />
                     <Text>1,926 stars</Text>
