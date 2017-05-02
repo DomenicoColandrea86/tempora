@@ -31,6 +31,10 @@
     "newclear": "rimraf $TMPDIR/react-* && watchman watch-del-all && rimraf ios/build && rm -rf node_modules/ && npm cache clean && npm i"
   },
   "jest": {
+    "preset": "react-native",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-navigation)"
+    ],
     "collectCoverageFrom": [
       "app/**/*.{js,jsx}",
       "!app/**/*.test.{js,jsx}"

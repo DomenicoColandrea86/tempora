@@ -4,10 +4,10 @@ import { View } from 'react-native';
 import { Card, CardItem, Thumbnail, Text, Body } from 'native-base';
 import styles from './styles';
 
-const InsightsListItem = function InsightsListItem({ item }) {
+const InsightsListItem = function InsightsListItem({ item, goInsightDetail }) {
   return (
     <Card>
-      <CardItem>
+      <CardItem button onPress={() => goInsightDetail(item)}>
         <View style={styles.thumbnail}>
           <Thumbnail
             square
@@ -26,6 +26,7 @@ const InsightsListItem = function InsightsListItem({ item }) {
 
 InsightsListItem.propTypes = {
   item: React.PropTypes.object.isRequired,
+  goInsightDetail: React.PropTypes.func.isRequired,
 };
 
 export default InsightsListItem;

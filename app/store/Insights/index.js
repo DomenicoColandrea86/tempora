@@ -14,16 +14,15 @@ const InsightsActions = Creators;
 
 // Initial State
 const INITIAL_STATE = fromJS({
-  data: null,
+  data: [],
   loading: false,
-  payload: null,
+  payload: [],
   error: null,
 });
 
 // Reducers
 // request the data from an api
-const request = (state, { data }) =>
-  state.merge({ loading: true, data, payload: null });
+const request = (state, { data }) => state.merge({ loading: true, data });
 
 // successful api lookup
 const success = (state, action) => {
@@ -32,8 +31,7 @@ const success = (state, action) => {
 };
 
 // Something went wrong somewhere.
-const failure = state =>
-  state.merge({ loading: false, error: true, payload: null });
+const failure = state => state.merge({ loading: false, error: true });
 
 const InsightsReducer = createReducer(INITIAL_STATE, {
   [Types.INSIGHTS_REQUEST]: request,

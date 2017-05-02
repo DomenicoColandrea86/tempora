@@ -13,9 +13,13 @@ class InsightsListView extends React.PureComponent {
     this.props.loadInsights();
   }
 
-  renderItem({ item }) {
-    return <InsightsListItem item={item} />;
-  }
+  goInsightDetail = insight => {
+    this.props.navigation.navigate('InsightsDetailView', { insight });
+  };
+
+  renderItem = ({ item }) => (
+    <InsightsListItem item={item} goInsightDetail={this.goInsightDetail} />
+  );
 
   render() {
     return (
@@ -36,14 +40,10 @@ class InsightsListView extends React.PureComponent {
 }
 
 InsightsListView.propTypes = {
-  insights: React.PropTypes.array,
-  loading: React.PropTypes.bool,
+  insights: React.PropTypes.array.isRequired,
+  loading: React.PropTypes.bool.isRequired,
   loadInsights: React.PropTypes.func.isRequired,
-};
-
-InsightsListView.defaultProps = {
-  insights: [],
-  loading: false,
+  navigation: React.PropTypes.any.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
