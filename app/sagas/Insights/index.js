@@ -1,17 +1,26 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { InsightsActions, InsightsTypes } from '../../store/Insights';
+import { normalizeAuthors } from '../../transforms/Insights';
 import api from '../../api';
 
 function* requestInsightsAsync() {
-  // make the call to the api
-  const response = yield call(api.insights.list);
-  // success?
+  const response = yield call(api.insights.listInsights);
   if (response.ok) {
-    // You might need to change the response here - do this with a 'transform',
-    // located in ../Transforms/. Otherwise, just pass the data back from the api.
     yield put(InsightsActions.insightsSuccess(response.data));
+    yield put(InsightsActions.insightsAuthorsRequest());
   } else {
     yield put(InsightsActions.insightsFailure());
+  }
+}
+
+function* requestInsightsAuthorsAsync() {
+  const response = yield call(api.insights.listAuthors);
+  if (response.ok) {
+    yield put(
+      InsightsActions.insightsAuthorsSuccess(normalizeAuthors(response.data)),
+    );
+  } else {
+    yield put(InsightsActions.insightsAuthorsFailure());
   }
 }
 
@@ -21,8 +30,11 @@ const asyncInsightsWatchers = [
   // inner function we use yield*
   // from direct watcher we just yield value
   function* asyncInsightsWatcher() {
+    yield [takeLatest(InsightsTypes.INSIGHTS_REQUEST, requestInsightsAsync)];
+  },
+  function* asyncInsightsAuthorsWatcher() {
     yield [
-      yield takeLatest(InsightsTypes.INSIGHTS_REQUEST, requestInsightsAsync),
+      takeLatest(InsightsTypes.INSIGHTS_REQUEST, requestInsightsAuthorsAsync),
     ];
   },
 ];

@@ -7,6 +7,9 @@ const { Types, Creators } = createActions({
   insightsRequest: ['data'],
   insightsSuccess: ['payload'],
   insightsFailure: null,
+  insightsAuthorsRequest: ['data'],
+  insightsAuthorsSuccess: ['payload'],
+  insightsAuthorsFailure: null,
 });
 
 const InsightsTypes = Types;
@@ -16,27 +19,37 @@ const InsightsActions = Creators;
 const INITIAL_STATE = fromJS({
   data: [],
   loading: false,
-  payload: [],
+  posts: [],
+  authors: {},
   error: null,
 });
 
 // Reducers
-// request the data from an api
-const request = (state, { data }) => state.merge({ loading: true, data });
+// insights request
+const insightsRequest = (state, { data }) =>
+  state.merge({ loading: true, data });
 
-// successful api lookup
-const success = (state, action) => {
-  const { payload } = action;
-  return state.merge({ loading: false, error: null, payload });
-};
+// insights success
+const insightsSuccess = (state, action) =>
+  state.merge({ loading: false, error: null, posts: action.payload });
+
+// authors request
+const authorsRequest = (state, { data }) => state.merge({ data });
+
+// authors success
+const authorsSuccess = (state, action) =>
+  state.merge({ error: null, authors: action.payload });
 
 // Something went wrong somewhere.
 const failure = state => state.merge({ loading: false, error: true });
 
 const InsightsReducer = createReducer(INITIAL_STATE, {
-  [Types.INSIGHTS_REQUEST]: request,
-  [Types.INSIGHTS_SUCCESS]: success,
+  [Types.INSIGHTS_REQUEST]: insightsRequest,
+  [Types.INSIGHTS_SUCCESS]: insightsSuccess,
   [Types.INSIGHTS_FAILURE]: failure,
+  [Types.INSIGHTS_AUTHORS_REQUEST]: authorsRequest,
+  [Types.INSIGHTS_AUTHORS_SUCCESS]: authorsSuccess,
+  [Types.INSIGHTS_AUTHORS_FAILURE]: failure,
 });
 
 // Selectors
@@ -44,12 +57,22 @@ const InsightsReducer = createReducer(INITIAL_STATE, {
 const selectInsightsDomain = state =>
   state && state.get('insights') && state.get('insights');
 
-// Insights selector
-const getInsights = () =>
+// posts selector
+const getPosts = () =>
   createSelector(
     selectInsightsDomain,
     subState =>
-      subState && subState.get('payload') && subState.get('payload').toJS(),
+      subState && subState.get('posts') && subState.get('posts').toJS(),
+  );
+
+// authors selector
+const getAuthors = () =>
+  createSelector(
+    selectInsightsDomain,
+    subState =>
+      subState &&
+      subState.get('authors') &&
+      subState.get('authors').get('entities').get('authors').toJS(),
   );
 
 const getLoading = () =>
@@ -62,6 +85,7 @@ export {
   InsightsTypes,
   InsightsActions,
   InsightsReducer,
-  getInsights,
+  getPosts,
+  getAuthors,
   getLoading,
 };

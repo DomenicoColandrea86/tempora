@@ -5,7 +5,7 @@ import { View, FlatList } from 'react-native';
 import { createStructuredSelector } from 'reselect';
 import { Container, Content, Text } from 'native-base';
 import InsightsListItem from '../../components/Insights/InsightsListItem';
-import { InsightsActions, getInsights, getLoading } from '../../store/Insights';
+import { InsightsActions, getPosts, getLoading } from '../../store/Insights';
 import styles from './styles';
 
 class InsightsListView extends React.PureComponent {
@@ -28,7 +28,7 @@ class InsightsListView extends React.PureComponent {
           <Content>
             {this.props.loading && <Text>Loading...</Text>}
             <FlatList
-              data={this.props.insights}
+              data={this.props.posts}
               renderItem={this.renderItem}
               keyExtractor={item => item.id}
             />
@@ -40,14 +40,14 @@ class InsightsListView extends React.PureComponent {
 }
 
 InsightsListView.propTypes = {
-  insights: React.PropTypes.array.isRequired,
+  posts: React.PropTypes.any.isRequired,
   loading: React.PropTypes.bool.isRequired,
   loadInsights: React.PropTypes.func.isRequired,
   navigation: React.PropTypes.any.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  insights: getInsights(),
+  posts: getPosts(),
   loading: getLoading(),
 });
 

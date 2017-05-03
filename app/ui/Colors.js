@@ -14,7 +14,7 @@ const colors = {
   charcoal: '#595959',
   coal: '#2d2d2d',
   bloodOrange: '#fb5f26',
-  snow: 'black',
+  snow: 'white',
   ember: 'rgba(164, 0, 48, 0.5)',
   fire: '#DFDFDF',
   drawer: 'rgba(30, 30, 29, 0.95)',

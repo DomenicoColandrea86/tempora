@@ -1,9 +1,8 @@
 import { StackNavigator } from 'react-navigation';
 import InsightsListView from '../screens/Insights/InsightsListView';
 import InsightsDetailView from '../screens/Insights/InsightsDetailView';
-// import styles from './styles';
+import styles from './styles';
 
-// Manifest of possible screens
 const PrimaryNav = StackNavigator(
   {
     InsightsListView: {
@@ -14,17 +13,17 @@ const PrimaryNav = StackNavigator(
     },
     InsightsDetailView: {
       screen: InsightsDetailView,
-      navigationOptions: {
-        title: 'Detail',
-      },
+      navigationOptions: ({ navigation }) => ({
+        title: `${navigation.state.params.insight.title.rendered}`,
+      }),
     },
   },
   {
     // Default config for all screens
     initialRouteName: 'InsightsListView',
-    // headerMode: 'none',
+    // headerMode: 'screen',
     navigationOptions: {
-      // headerStyle: styles.header,
+      headerStyle: styles.header,
     },
   },
 );

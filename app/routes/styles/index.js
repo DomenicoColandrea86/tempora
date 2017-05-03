@@ -3,6 +3,6 @@ import { Colors } from '../../ui/';
 
 export default StyleSheet.create({
   header: {
-    backgroundColor: Colors.backgroundColor,
+    backgroundColor: Colors.ricePaper,
   },
 });
