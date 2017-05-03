@@ -15,6 +15,7 @@ import {
   Button,
   Icon,
   Thumbnail,
+  Title,
 } from 'native-base';
 import { InsightsActions, getAuthors } from '../../store/Insights';
 
@@ -47,19 +48,20 @@ class InsightsDetailView extends React.PureComponent {
                         this.props.authors[insight.author].acf.author_bio,
                       )}
                     </Text>
+                    <Text note>
+                      {moment(insight.date).format('MMMM Do, YYYY')}
+                    </Text>
                   </Body>
                 </Left>
               </CardItem>
               <CardItem>
                 <Body>
-                  <Text>{insight.title.rendered}</Text>
-                  <Text note>
-                    {moment(insight.date).format('MMMM Do, YYYY')}
-                  </Text>
+                  <Text><Title>{insight.title.rendered}</Title></Text>
                 </Body>
               </CardItem>
               <CardItem>
                 <Body>
+                  <Text>{insight.title.rendered}</Text>
                   <Text>{this.stripHTML(insight.content.rendered)}</Text>
                   <Button transparent textStyle={{ color: '#87838B' }}>
                     <Icon name="logo-github" />

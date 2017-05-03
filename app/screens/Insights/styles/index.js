@@ -18,12 +18,9 @@ export default StyleSheet.create({
     margin: Metrics.section,
     padding: Metrics.baseMargin,
   },
-  boldLabel: {
+  title: {
     fontWeight: 'bold',
-    color: Colors.snow,
     textAlign: 'left',
-    padding: 20,
-    marginBottom: Metrics.smallMargin,
   },
   label: {
     textAlign: 'center',

@@ -1,7 +1,7 @@
 import api from './api';
 
 const insights = {
-  listInsights() {
+  listPosts() {
     return api.get('posts?per_page=100');
   },
   listAuthors() {

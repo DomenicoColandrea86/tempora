@@ -4,7 +4,7 @@ import { normalizeAuthors } from '../../transforms/Insights';
 import api from '../../api';
 
 function* requestInsightsAsync() {
-  const response = yield call(api.insights.listInsights);
+  const response = yield call(api.insights.listPosts);
   if (response.ok) {
     yield put(InsightsActions.insightsSuccess(response.data));
     yield put(InsightsActions.insightsAuthorsRequest());
