@@ -1,5 +1,7 @@
 const colors = {
-  background: 'orange',
+  background: '#E8821E',
+  rcaOrange: '#E8821E',
+  rcaLightBlue: '#87AED5',
   clear: 'rgba(0,0,0,0)',
   facebook: '#3b5998',
   transparent: 'rgba(0,0,0,0)',

@@ -24,16 +24,17 @@ class InsightsListView extends React.PureComponent {
   render() {
     return (
       <View style={styles.container}>
-        <Container>
-          <Content>
-            {this.props.loading && <Text>Loading...</Text>}
-            <FlatList
-              data={this.props.posts}
-              renderItem={this.renderItem}
-              keyExtractor={item => item.id}
-            />
-          </Content>
-        </Container>
+        {this.props.loading && <Text>Loading...</Text>}
+        {!this.props.loading &&
+          <Container>
+            <Content>
+              <FlatList
+                data={this.props.posts}
+                renderItem={this.renderItem}
+                keyExtractor={item => item.id}
+              />
+            </Content>
+          </Container>}
       </View>
     );
   }

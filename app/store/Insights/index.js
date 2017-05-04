@@ -4,12 +4,12 @@ import { createReducer, createActions } from 'reduxsauce';
 
 // Types and Action Creators
 const { Types, Creators } = createActions({
-  insightsRequest: ['data'],
+  insightsRequest: null,
   insightsSuccess: ['payload'],
-  insightsFailure: null,
-  insightsAuthorsRequest: ['data'],
+  insightsFailure: ['error'],
+  insightsAuthorsRequest: null,
   insightsAuthorsSuccess: ['payload'],
-  insightsAuthorsFailure: null,
+  insightsAuthorsFailure: ['error'],
 });
 
 const InsightsTypes = Types;
@@ -17,7 +17,6 @@ const InsightsActions = Creators;
 
 // Initial State
 const INITIAL_STATE = fromJS({
-  data: [],
   loading: false,
   posts: [],
   authors: {},
@@ -26,22 +25,21 @@ const INITIAL_STATE = fromJS({
 
 // Reducers
 // insights request
-const insightsRequest = (state, { data }) =>
-  state.merge({ loading: true, data });
+const insightsRequest = state => state.merge({ loading: true });
 
 // insights success
 const insightsSuccess = (state, action) =>
   state.merge({ loading: false, error: null, posts: action.payload });
 
 // authors request
-const authorsRequest = (state, { data }) => state.merge({ data });
+const authorsRequest = state => state;
 
 // authors success
 const authorsSuccess = (state, action) =>
-  state.merge({ error: null, authors: action.payload });
+  state.merge({ error: null, authors: action.payload.entities.authors });
 
 // Something went wrong somewhere.
-const failure = state => state.merge({ loading: false, error: true });
+const failure = (state, { error }) => state.merge({ loading: false, error });
 
 const InsightsReducer = createReducer(INITIAL_STATE, {
   [Types.INSIGHTS_REQUEST]: insightsRequest,
@@ -54,32 +52,23 @@ const InsightsReducer = createReducer(INITIAL_STATE, {
 
 // Selectors
 // Insights domain selector
-const selectInsightsDomain = state =>
-  state && state.get('insights') && state.get('insights');
+const selectInsightsDomain = state => state.get('insights');
 
 // posts selector
 const getPosts = () =>
-  createSelector(
-    selectInsightsDomain,
-    subState =>
-      subState && subState.get('posts') && subState.get('posts').toJS(),
+  createSelector(selectInsightsDomain, subState =>
+    subState.get('posts').toJS(),
   );
 
 // authors selector
 const getAuthors = () =>
-  createSelector(
-    selectInsightsDomain,
-    subState =>
-      subState &&
-      subState.get('authors') &&
-      subState.get('authors').get('entities').get('authors').toJS(),
+  createSelector(selectInsightsDomain, subState =>
+    subState.get('authors').toJS(),
   );
 
+// loading selector
 const getLoading = () =>
-  createSelector(
-    selectInsightsDomain,
-    subState => subState && subState.get('loading'),
-  );
+  createSelector(selectInsightsDomain, subState => subState.get('loading'));
 
 export {
   InsightsTypes,
