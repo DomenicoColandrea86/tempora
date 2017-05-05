@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { InsightsActions, InsightsTypes } from '../../store/Insights';
-import { normalizeAuthors } from '../../transforms/Insights';
+import { normalizeAuthors, normalizeTags } from '../../transforms/Insights';
 import api from '../../api';
 
 function* requestInsightsAsync() {
@@ -19,8 +19,20 @@ function* requestInsightsAuthorsAsync() {
     yield put(
       InsightsActions.insightsAuthorsSuccess(normalizeAuthors(response.data)),
     );
+    yield put(InsightsActions.insightsTagsRequest());
   } else {
-    yield put(InsightsActions.insightsAuthorsFailure(response.data));
+    yield put(InsightsActions.insightsFailure(response.data));
+  }
+}
+
+function* requestInsightsTagsAsync() {
+  const response = yield call(api.insights.listTags);
+  if (response.ok) {
+    yield put(
+      InsightsActions.insightsTagsSuccess(normalizeTags(response.data)),
+    );
+  } else {
+    yield put(InsightsActions.insightsFailure(response.data));
   }
 }
 
@@ -35,6 +47,11 @@ const asyncInsightsWatchers = [
         InsightsTypes.INSIGHTS_AUTHORS_REQUEST,
         requestInsightsAuthorsAsync,
       ),
+    ];
+  },
+  function* asyncInsightsTagsWatcher() {
+    yield [
+      takeLatest(InsightsTypes.INSIGHTS_REQUEST, requestInsightsTagsAsync),
     ];
   },
 ];

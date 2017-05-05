@@ -12,12 +12,11 @@ import {
   Text,
   Body,
   Left,
-  Button,
-  Icon,
   Thumbnail,
   Title,
+  Badge,
 } from 'native-base';
-import { InsightsActions, getAuthors } from '../../store/Insights';
+import { InsightsActions, getAuthors, getTags } from '../../store/Insights';
 
 import styles from './styles';
 
@@ -63,10 +62,25 @@ class InsightsDetailView extends React.PureComponent {
                 <Body>
                   <Text>{insight.title.rendered}</Text>
                   <Text>{this.stripHTML(insight.content.rendered)}</Text>
-                  <Button transparent textStyle={{ color: '#87838B' }}>
-                    <Icon name="logo-github" />
-                    <Text>1,926 stars</Text>
-                  </Button>
+                  <View
+                    style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}
+                  >
+                    {insight.tags.map(tag => (
+                      <Badge
+                        key={tag.id}
+                        style={{
+                          backgroundColor: '#d3d3d3',
+                          marginRight: 8,
+                          marginBottom: 8,
+                          borderRadius: 3,
+                        }}
+                      >
+                        <Text style={{ color: 'white' }}>
+                          {this.props.tags[tag].name}
+                        </Text>
+                      </Badge>
+                    ))}
+                  </View>
                 </Body>
               </CardItem>
             </Card>
@@ -80,10 +94,12 @@ class InsightsDetailView extends React.PureComponent {
 InsightsDetailView.propTypes = {
   navigation: React.PropTypes.any.isRequired,
   authors: React.PropTypes.any.isRequired,
+  tags: React.PropTypes.any.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   authors: getAuthors(),
+  tags: getTags(),
 });
 
 function mapDispatchToProps(dispatch, ownProps) {

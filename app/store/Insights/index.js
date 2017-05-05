@@ -10,6 +10,9 @@ const { Types, Creators } = createActions({
   insightsAuthorsRequest: null,
   insightsAuthorsSuccess: ['payload'],
   insightsAuthorsFailure: ['error'],
+  insightsTagsRequest: null,
+  insightsTagsSuccess: ['payload'],
+  insightsTagsFailure: ['error'],
 });
 
 const InsightsTypes = Types;
@@ -17,10 +20,11 @@ const InsightsActions = Creators;
 
 // Initial State
 const INITIAL_STATE = fromJS({
-  loading: false,
   posts: [],
   authors: {},
+  tags: {},
   error: null,
+  loading: false,
 });
 
 // Reducers
@@ -38,16 +42,24 @@ const authorsRequest = state => state;
 const authorsSuccess = (state, action) =>
   state.merge({ error: null, authors: action.payload.entities.authors });
 
+// tags request
+const tagsRequest = state => state;
+
+// tags success
+const tagsSuccess = (state, action) =>
+  state.merge({ error: null, tags: action.payload.entities.tags });
+
 // Something went wrong somewhere.
 const failure = (state, { error }) => state.merge({ loading: false, error });
 
 const InsightsReducer = createReducer(INITIAL_STATE, {
   [Types.INSIGHTS_REQUEST]: insightsRequest,
   [Types.INSIGHTS_SUCCESS]: insightsSuccess,
-  [Types.INSIGHTS_FAILURE]: failure,
   [Types.INSIGHTS_AUTHORS_REQUEST]: authorsRequest,
   [Types.INSIGHTS_AUTHORS_SUCCESS]: authorsSuccess,
-  [Types.INSIGHTS_AUTHORS_FAILURE]: failure,
+  [Types.INSIGHTS_TAGS_REQUEST]: tagsRequest,
+  [Types.INSIGHTS_TAGS_SUCCESS]: tagsSuccess,
+  [Types.INSIGHTS_FAILURE]: failure,
 });
 
 // Selectors
@@ -66,6 +78,10 @@ const getAuthors = () =>
     subState.get('authors').toJS(),
   );
 
+// tags selector
+const getTags = () =>
+  createSelector(selectInsightsDomain, subState => subState.get('tags').toJS());
+
 // loading selector
 const getLoading = () =>
   createSelector(selectInsightsDomain, subState => subState.get('loading'));
@@ -77,4 +93,5 @@ export {
   getPosts,
   getAuthors,
   getLoading,
+  getTags,
 };
