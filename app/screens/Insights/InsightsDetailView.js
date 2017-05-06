@@ -67,9 +67,9 @@ class InsightsDetailView extends React.PureComponent {
                   >
                     {insight.tags.map(tag => (
                       <Badge
-                        key={tag.id}
+                        key={this.props.tags[tag].id}
                         style={{
-                          backgroundColor: '#d3d3d3',
+                          backgroundColor: '#84C1D3',
                           marginRight: 8,
                           marginBottom: 8,
                           borderRadius: 3,

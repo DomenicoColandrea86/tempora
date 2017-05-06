@@ -3,9 +3,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { View, FlatList } from 'react-native';
 import { createStructuredSelector } from 'reselect';
-import { Container, Content, Text } from 'native-base';
+import { Container, Content, Spinner } from 'native-base';
 import InsightsListItem from '../../components/Insights/InsightsListItem';
-import { InsightsActions, getPosts, getLoading } from '../../store/Insights';
+import {
+  InsightsActions,
+  getPosts,
+  getAuthors,
+  getLoading,
+} from '../../store/Insights';
 import styles from './styles';
 
 class InsightsListView extends React.PureComponent {
@@ -18,14 +23,19 @@ class InsightsListView extends React.PureComponent {
   };
 
   renderItem = ({ item }) => (
-    <InsightsListItem item={item} goInsightDetail={this.goInsightDetail} />
+    <InsightsListItem
+      item={item}
+      goInsightDetail={this.goInsightDetail}
+      author={this.props.authors[item.author]}
+    />
   );
 
   render() {
     return (
       <View style={styles.container}>
-        {this.props.loading && <Text>Loading...</Text>}
+        {this.props.loading && <Spinner color="black" />}
         {!this.props.loading &&
+          this.props.authors &&
           <Container>
             <Content>
               <FlatList
@@ -42,6 +52,7 @@ class InsightsListView extends React.PureComponent {
 
 InsightsListView.propTypes = {
   posts: React.PropTypes.any.isRequired,
+  authors: React.PropTypes.any.isRequired,
   loading: React.PropTypes.bool.isRequired,
   loadInsights: React.PropTypes.func.isRequired,
   navigation: React.PropTypes.any.isRequired,
@@ -49,6 +60,7 @@ InsightsListView.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   posts: getPosts(),
+  authors: getAuthors(),
   loading: getLoading(),
 });
 

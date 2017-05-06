@@ -1,6 +1,8 @@
+import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import InsightsListView from '../screens/Insights/InsightsListView';
 import InsightsDetailView from '../screens/Insights/InsightsDetailView';
+import Logo from '../components/Logo';
 import styles from './styles';
 
 const PrimaryNav = StackNavigator(
@@ -8,7 +10,8 @@ const PrimaryNav = StackNavigator(
     InsightsListView: {
       screen: InsightsListView,
       navigationOptions: {
-        title: 'RCA Insights',
+        title: null,
+        headerLeft: <Logo />,
       },
     },
     InsightsDetailView: {
