@@ -1,19 +1,19 @@
 import React from 'react';
 import moment from 'moment';
+import readingTime from 'reading-time';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { createStructuredSelector } from 'reselect';
 import {
   Container,
   Content,
-  Card,
+  List,
   CardItem,
   Text,
   Body,
   Left,
   Thumbnail,
-  Title,
   Badge,
 } from 'native-base';
 import { InsightsActions, getAuthors, getTags } from '../../store/Insights';
@@ -31,37 +31,64 @@ class InsightsDetailView extends React.PureComponent {
       <View style={styles.container}>
         <Container>
           <Content>
-            <Card style={{ flex: 0 }}>
+            <List style={{ flex: 0 }}>
               <CardItem>
                 <Left>
                   <Thumbnail
+                    small
                     source={{
                       uri: this.props.authors[insight.author].acf
                         .author_headshot.url,
                     }}
                   />
                   <Body>
-                    <Text>{this.props.authors[insight.author].name}</Text>
-                    <Text note>
+                    <Text style={{ fontSize: 14 }}>
+                      {this.props.authors[insight.author].name}
+                    </Text>
+                    <Text note style={{ fontSize: 12 }}>
                       {this.getTitle(
                         this.props.authors[insight.author].acf.author_bio,
                       )}
                     </Text>
-                    <Text note>
-                      {moment(insight.date).format('MMMM Do, YYYY')}
+                    <Text note style={{ fontSize: 12 }}>
+                      {moment(insight.date).format('MMMM D')}
+                      {' '}
+                      -
+                      {' '}
+                      {readingTime(insight.content.rendered).text}
                     </Text>
                   </Body>
                 </Left>
               </CardItem>
               <CardItem>
                 <Body>
-                  <Text><Title>{insight.title.rendered}</Title></Text>
+                  <Text
+                    style={{
+                      color: 'rgba(0, 0, 0, 0.8);',
+                      fontSize: 24,
+                      fontWeight: 'bold',
+                      lineHeight: 28,
+                      marginBottom: 10,
+                    }}
+                  >
+                    {insight.title.rendered}
+                  </Text>
                 </Body>
               </CardItem>
+              <Image
+                style={{
+                  resizeMode: 'cover',
+                  width: '100%',
+                  marginTop: 0,
+                  height: 175,
+                }}
+                source={{ uri: 'https://unsplash.it/400/800/?random' }}
+              />
               <CardItem>
                 <Body>
-                  <Text>{insight.title.rendered}</Text>
-                  <Text>{this.stripHTML(insight.content.rendered)}</Text>
+                  <Text style={{ fontSize: 16, lineHeight: 26, marginTop: 10 }}>
+                    {this.stripHTML(insight.content.rendered)}
+                  </Text>
                   <View
                     style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}
                   >
@@ -76,14 +103,14 @@ class InsightsDetailView extends React.PureComponent {
                         }}
                       >
                         <Text style={{ color: 'white' }}>
-                          {this.props.tags[tag].name}
+                          #{this.props.tags[tag].name}
                         </Text>
                       </Badge>
                     ))}
                   </View>
                 </Body>
               </CardItem>
-            </Card>
+            </List>
           </Content>
         </Container>
       </View>

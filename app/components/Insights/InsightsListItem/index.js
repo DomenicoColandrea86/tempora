@@ -2,7 +2,16 @@ import React from 'react';
 import moment from 'moment';
 import readingTime from 'reading-time';
 import { Image } from 'react-native';
-import { CardItem, Thumbnail, Text, Body, Left, List } from 'native-base';
+import {
+  CardItem,
+  Thumbnail,
+  Text,
+  Body,
+  Left,
+  Right,
+  List,
+} from 'native-base';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 const InsightsListItem = function InsightsListItem({
   item,
@@ -33,7 +42,7 @@ const InsightsListItem = function InsightsListItem({
           <Body>
             {author &&
               author.name &&
-              <Text style={{ fontSize: 14, color: '#84C1D3' }}>
+              <Text style={{ fontSize: 14, color: '#4ea4bd' }}>
                 {author.name}
               </Text>}
             <Text note style={{ fontSize: 12 }}>
@@ -45,6 +54,13 @@ const InsightsListItem = function InsightsListItem({
             </Text>
           </Body>
         </Left>
+        <Right>
+          <EvilIcons
+            onPress={() => alert('Hey now!')}
+            style={{ fontSize: 30, color: 'rgba(0,0,0,.44)' }}
+            name={'chevron-down'}
+          />
+        </Right>
       </CardItem>
       <CardItem button onPress={() => goInsightDetail(item)}>
         <Body>
@@ -53,7 +69,7 @@ const InsightsListItem = function InsightsListItem({
               resizeMode: 'cover',
               width: '100%',
               marginTop: 0,
-              marginBottom: 20,
+              marginBottom: 10,
               height: 160,
             }}
             source={{ uri: 'https://unsplash.it/400/800/?random' }}
@@ -63,7 +79,8 @@ const InsightsListItem = function InsightsListItem({
               color: 'rgba(0, 0, 0, 0.8);',
               fontSize: 22,
               fontWeight: 'bold',
-              lineHeight: 24,
+              lineHeight: 26,
+              marginBottom: 5,
             }}
           >
             {item.title.rendered}
@@ -71,7 +88,7 @@ const InsightsListItem = function InsightsListItem({
           <Text
             style={{
               color: 'color: rgba(0,0,0,.44)',
-              fontSize: 18,
+              fontSize: 16,
               lineHeight: 22,
             }}
           >
