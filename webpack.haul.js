@@ -12,6 +12,7 @@ module.exports = ({ platform }, defaults) => ({
         include: [
           /node_modules\/native-base-shoutem-theme/,
           /node_modules\/@shoutem/,
+          /node_modules\/react-native-vector-icons/,
         ],
         query: {
           presets: ['react-native'],
