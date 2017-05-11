@@ -42,7 +42,7 @@ class InsightsDetailView extends React.PureComponent {
                     }}
                   />
                   <Body>
-                    <Text style={{ fontSize: 14 }}>
+                    <Text style={{ fontSize: 14, color: '#4ea4bd' }}>
                       {this.props.authors[insight.author].name}
                     </Text>
                     <Text note style={{ fontSize: 12 }}>

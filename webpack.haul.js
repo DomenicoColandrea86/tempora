@@ -7,20 +7,20 @@ module.exports = ({ platform }, defaults) => ({
     rules: [
       ...defaults.module.rules,
       {
-        test: /\.js$/, // Transform NativeBase .js files required with Babel
+        test: /\.js$/,
         loader: 'babel-loader',
         include: [
           /node_modules\/native-base-shoutem-theme/,
           /node_modules\/@shoutem/,
           /node_modules\/react-native-vector-icons/,
         ],
-        query: {
+        options: {
           presets: ['react-native'],
         },
       },
       {
         test: /\.(otf|eot|svg|ttf|woff|woff2)$/,
-        use: 'file-loader',
+        loader: 'file-loader',
       },
     ],
   },
